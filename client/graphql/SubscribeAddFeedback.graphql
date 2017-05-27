@@ -1,0 +1,6 @@
+subscription SubscribeAddFeedback {
+  feedbackAdded {
+    id
+    text
+  }
+}

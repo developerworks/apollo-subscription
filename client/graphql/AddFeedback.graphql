@@ -1,0 +1,6 @@
+mutation AddFeedback($data: FeedbackInput!){
+  addFeedback(data: $data) {
+    id
+    text
+  }
+}
