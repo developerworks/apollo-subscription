@@ -68,6 +68,12 @@ module.exports = {
     contentBase: path.join(__dirname, 'dist'),
     port: 9001,
     hot: true,
-    publicPath: '/'
+    publicPath: '/',
+    proxy: {
+      '/api': {
+        target: 'http://localhost:7001/api',
+        secure: false,
+      },
+    },
   }
 }
