@@ -57,7 +57,7 @@ const Resolvers = {
         id: feedbacks.length + 1,
         text: data.text
       }
-      feedbacks.push(object)
+      feedbacks.unshift(object)
       pubsub.publish('feedbackAdded', {feedbackAdded: object})
       return object
     }
