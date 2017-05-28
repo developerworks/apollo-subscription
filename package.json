@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --verbose -d 1 ./src/index.js -x babel-node",
-    "watch": "nodemon --watch webpack.config.js --exec \"webpack-dev-server --watch --progress --history-api-fallback --info true\"",
+    "server": "nodemon --verbose -d 1 ./src/index.js -x babel-node",
+    "client": "nodemon --watch webpack.config.js --exec \"webpack-dev-server --watch --progress --history-api-fallback --info true\"",
     "build:dll": "rm -rf dist && webpack --config webpack.config.dll.js --progress"
   },
   "devDependencies": {

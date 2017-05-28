@@ -20,11 +20,11 @@ import App from './App'
 //   batchInterval: 10
 // });
 
-const networkInterface = createNetworkInterface({
+const httpNetworkInterface = createNetworkInterface({
   uri: '/api'
 });
 
-const wsClient = new SubscriptionClient('ws://localhost:7003/feedback', {
+const subscriptionClient = new SubscriptionClient('ws://localhost:7003/feedback', {
   reconnect: true,
   connectionParams: {
     token: localStorage.getItem('token') ? localStorage.getItem('token') : null
@@ -32,12 +32,12 @@ const wsClient = new SubscriptionClient('ws://localhost:7003/feedback', {
 });
 
 const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
-  networkInterface,
-  wsClient
+  httpNetworkInterface,
+  subscriptionClient
 );
 
 const client = new ApolloClient({
-  networkInterfaceWithSubscriptions,
+  networkInterface: networkInterfaceWithSubscriptions,
   connectToDevTools: true,
   dataIdFromObject: o => {
     if (o.__typename != null && o.id != null) {
