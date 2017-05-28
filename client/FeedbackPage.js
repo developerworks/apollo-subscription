@@ -4,56 +4,36 @@ import { graphql, gql, withApollo, compose } from 'react-apollo'
 
 import SUBSCRIPTION_NEW_FEEDBACKS from './graphql/SubscribeAddFeedback.graphql'
 import MUTATION_ADD_FEEDBACK from './graphql/AddFeedback.graphql'
+import QUERY_FEEDBACKS from './graphql/ListFeedback.graphql'
 
-class FeedbackPage extends Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
-    return (
-      <div>
-        <ul>
-          {
-            this.props.data.feedbacks.map((item, index) => {
-              <li>
-                <span>{item.id}</span>
-                <span>{item.text}</span>
-              </li>
-            })
-          }
-        </ul>
-      </div>
-    )
-  }
-}
-FeedbackPage.propTypes = {
-  subscribeToNewFeedback: PropTypes.func.isRequired
-}
+import FeedbackList from './FeedbackList'
 
-const withData = graphql(ListFeedback, {
+const withData = graphql(QUERY_FEEDBACKS, {
   name: 'ListFeedback',
   options: ({ params }) => ({
     variables: {
-      repoName: `${params.org}/${params.repoName}`
+      key: 'value'
     },
   }),
+  alias: 'FeedbackPage',
   props: props => {
+    console.log(props)
     return {
       subscribeToNewFeedback: params => {
-        return props.feedbacks.subscribeToMore({
+        return props.ListFeedback.subscribeToMore({
           document: SUBSCRIPTION_NEW_FEEDBACKS,
           variables: {
-            name: 'value'
+            test: 'test'
           },
           updateQuery: (prev, { subscriptionData }) => {
+            console.log('Prev: ', prev)
             if (!subscriptionData.data) {
               return prev;
             }
-            const newItem = subscriptionData.data.feedbackAdded;
+            const newFeedbackItem = subscriptionData.data.feedbackAdded;
+            console.log('New Feedback Item', newFeedbackItem)
             return Object.assign({}, prev, {
-              entry: {
-                feedbacks: [newFeedItem, ...prev.entry.feedbacks]
-              }
+              feedbacks: [newFeedbackItem, ...prev.feedbacks]
             });
           }
         });
@@ -63,4 +43,4 @@ const withData = graphql(ListFeedback, {
 });
 
 
-export default withData(FeedbackPage)
+export default withData(FeedbackList)

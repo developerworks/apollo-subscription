@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 // import SubscribeAddFeedback from './graphql/SubscribeAddFeedback.graphql'
 
-import FeedbackList from './FeedbackList'
+import FeedbackPage from './FeedbackPage'
 
 class AppState extends Component {
   state = {
@@ -15,7 +15,7 @@ class AppState extends Component {
   render() {
     return (
       <div>
-        <FeedbackList />
+        <FeedbackPage />
       </div>
     );
   }
