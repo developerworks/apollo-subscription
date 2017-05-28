@@ -30,9 +30,8 @@ const HTTP_PORT = 7001
  */
 const httpServer = createServer(app)
 httpServer.listen(HTTP_PORT, () => {
-  console.log(`API Server is now running on http://localhost:7001/api`)
-  console.log(`GraphiQL Tool at http://localhost:7001/graphiql`)
-  console.log(`API Subscriptions server is now running on ws://localhost:7001/feedback`)
+  logger.info(`API Server is now running on http://localhost:7001/api`)
+  logger.info(`GraphiQL Tool at http://localhost:7001/graphiql`)
 })
 
 /**
@@ -44,6 +43,8 @@ const websocketServer = createServer((request, response) => {
 })
 websocketServer.listen(WS_PORT, () => {
   logger.info(`Websocket Server is now running on http://localhost:${WS_PORT}`)
+  logger.info(`API Subscriptions server is now running on ws://localhost:7001/feedback`)
+
 })
 
 /**

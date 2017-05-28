@@ -6,19 +6,25 @@ import { AppContainer } from 'react-hot-loader'
 import {
   ApolloProvider,
   ApolloClient,
+  createNetworkInterface,
   createBatchingNetworkInterface
+
 } from 'react-apollo'
 
 import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
 
 import App from './App'
 
-const networkInterface = createBatchingNetworkInterface({
-  uri: 'http://localhost:7001/api',
-  batchInterval: 10
+// const networkInterface = createBatchingNetworkInterface({
+//   uri: 'http://localhost:7001/api',
+//   batchInterval: 10
+// });
+
+const networkInterface = createNetworkInterface({
+  uri: '/api'
 });
 
-const wsClient = new SubscriptionClient('ws://localhost:7001/feedback', {
+const wsClient = new SubscriptionClient('ws://localhost:7003/feedback', {
   reconnect: true,
   connectionParams: {
     token: localStorage.getItem('token') ? localStorage.getItem('token') : null
@@ -41,7 +47,6 @@ const client = new ApolloClient({
     }
   }
 });
-
 
 const render = (Component) => {
   ReactDOM.render(

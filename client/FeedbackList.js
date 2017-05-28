@@ -55,9 +55,9 @@ class FeedbackList extends Component {
 )*/
 
 // 属性验证
-FeedbackList.propTypes = {
-  subscribeToNewFeedback: PropTypes.func.isRequired
-}
+// FeedbackList.propTypes = {
+//   subscribeToNewFeedback: PropTypes.func.isRequired
+// }
 
 // 高阶组件
 export default graphql(QUERY_FEEDBACKS, {
@@ -67,27 +67,27 @@ export default graphql(QUERY_FEEDBACKS, {
       key: 'value'
     },
   }),
-  // props: props => {
-  //   return {
-  //     subscribeToNewFeedback: params => {
-  //       return props.feedbacks.subscribeToMore({
-  //         document: SUBSCRIPTION_NEW_FEEDBACKS,
-  //         variables: {
-  //           repoName: params.repoFullName,
-  //         },
-  //         updateQuery: (prev, { subscriptionData }) => {
-  //           if (!subscriptionData.data) {
-  //             return prev;
-  //           }
-  //           const newFeedItem = subscriptionData.data.feedbackAdded;
-  //           return Object.assign({}, prev, {
-  //             entry: {
-  //               feedbacks: [newFeedItem, ...prev.entry.feedbacks]
-  //             }
-  //           });
-  //         }
-  //       });
-  //     }
-  //   };
-  // },
+  props: props => {
+    return {
+      subscribeToNewFeedback: params => {
+        return props.feedbacks.subscribeToMore({
+          document: SUBSCRIPTION_NEW_FEEDBACKS,
+          variables: {
+            repoName: params.repoFullName,
+          },
+          updateQuery: (prev, { subscriptionData }) => {
+            if (!subscriptionData.data) {
+              return prev;
+            }
+            const newFeedItem = subscriptionData.data.feedbackAdded;
+            return Object.assign({}, prev, {
+              entry: {
+                feedbacks: [newFeedItem, ...prev.entry.feedbacks]
+              }
+            });
+          }
+        });
+      }
+    };
+  },
 })(FeedbackList);
